@@ -5,26 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.apps</groupId>
-        <artifactId>appointment-stream</artifactId>
+        <artifactId>common</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>common</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>auth-common</module>
-        <module>user-common</module>
-        <module>utils-common</module>
-    </modules>
+    <artifactId>utils-common</artifactId>
+    <name>utils-common</name>
+    <description>Common utils</description>
 
     <dependencies>
-        <!-- Lombok -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
     </dependencies>
-</project>
+</project> 
