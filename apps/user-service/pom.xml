@@ -15,10 +15,6 @@
 	<name>user-service</name>
 	<description>User Service</description>
 
-	<!-- Propriedades específicas -->
-	<properties>
-	</properties>
-
 	<!-- Dependências -->
 	<dependencies>
 

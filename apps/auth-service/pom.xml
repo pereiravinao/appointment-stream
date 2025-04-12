@@ -14,7 +14,18 @@
 	<description>Auth Service</description>
 
 	<dependencies>
+		<!-- MongoDB -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
 
+		<!-- Common -->
+		<dependency>
+			<groupId>com.apps</groupId>
+			<artifactId>auth-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 
