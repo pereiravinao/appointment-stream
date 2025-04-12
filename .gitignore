@@ -46,3 +46,5 @@ application-local.yml
 .metadata/
 
 HELP.md
+
+effective-pom.xml

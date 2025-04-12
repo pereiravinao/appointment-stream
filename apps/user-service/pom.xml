@@ -9,7 +9,6 @@
 		<groupId>com.apps</groupId>
 		<artifactId>apps</artifactId>
 		<version>1.0.0</version>
-		<relativePath>..</relativePath>
 	</parent>
 	
 	<artifactId>user-service</artifactId>
