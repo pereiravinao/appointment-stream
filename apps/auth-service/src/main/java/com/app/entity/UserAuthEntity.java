@@ -10,11 +10,13 @@ import com.app.enums.UserRole;
 import com.app.model.UserAuth;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Document(collection = "user_auth")
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserAuthEntity {
     @Id
     private String id;
@@ -26,14 +28,19 @@ public class UserAuthEntity {
 
     private Set<UserRole> roles;
 
-    private String status;
+    public UserAuthEntity(UserAuth userAuth) {
+        this.id = userAuth.getId();
+        this.email = userAuth.getEmail();
+        this.password = userAuth.getPassword();
+        this.roles = userAuth.getRoles();
+    }
 
     public UserAuth toModel() {
         return UserAuth.builder()
                 .id(this.id)
                 .email(this.email)
+                .password(this.password)
                 .roles(this.roles)
-                .status(this.status)
                 .build();
     }
 }

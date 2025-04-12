@@ -14,8 +14,8 @@ import lombok.Setter;
 public class UserAuth {
     private String id;
     private String email;
+    private String password;
     private Set<UserRole> roles;
-    private String status;
     private String token;
     private String refreshToken;
 }

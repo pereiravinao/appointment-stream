@@ -3,10 +3,12 @@ package com.app.service.impl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.app.entity.UserAuthEntity;
 import com.app.exception.auth.AuthExceptionHandler;
 import com.app.model.UserAuth;
 import com.app.repository.AuthUserRepository;
 import com.app.request.LoginRequest;
+import com.app.request.RegisterRequest;
 import com.app.service.interfaces.AuthService;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +44,18 @@ public class AuthBaseServiceImpl implements AuthService {
     @Override
     public void logout(String refreshToken) {
         this.refreshTokenService.deleteRefreshToken(refreshToken);
+    }
+
+    @Override
+    public UserAuth register(RegisterRequest registerRequest) {
+        if (this.authUserRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+            throw AuthExceptionHandler.userAlreadyExists();
+        }
+        var userAuth = UserAuth.builder()
+                .email(registerRequest.getEmail())
+                .password(this.passwordEncoder.encode(registerRequest.getPassword()))
+                .build();
+        return this.authUserRepository.save(new UserAuthEntity(userAuth)).toModel();
     }
 
 }

@@ -1,12 +1,15 @@
 package com.app.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.model.UserAuth;
 import com.app.request.LoginRequest;
+import com.app.request.RegisterRequest;
 import com.app.service.interfaces.AuthService;
 
 import jakarta.servlet.http.Cookie;
@@ -38,7 +41,16 @@ public class AuthController {
         this.authService.logout(refreshToken);
         this.buildCookie(response, ACCESS_TOKEN_NAME, null);
         this.buildCookie(response, REFRESH_TOKEN_NAME, null);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserAuth> register(@RequestBody RegisterRequest registerRequest,
+            HttpServletResponse response) {
+        var userAuth = this.authService.register(registerRequest);
+        this.buildCookie(response, ACCESS_TOKEN_NAME, userAuth.getToken());
+        this.buildCookie(response, REFRESH_TOKEN_NAME, userAuth.getRefreshToken());
+        return new ResponseEntity<>(userAuth, HttpStatus.CREATED);
     }
 
     private void buildCookie(HttpServletResponse response, String tokenName, String token) {
