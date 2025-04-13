@@ -25,6 +25,11 @@ public class UserBaseServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        var userEntity = this.userRepository.findByAuthId(user.getAuthId());
+        if (userEntity.isPresent()) {
+            userEntity.get().update(user);
+            return this.userRepository.save(userEntity.get()).toModel();
+        }
         return this.userRepository.save(new UserEntity(user)).toModel();
     }
 }

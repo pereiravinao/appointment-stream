@@ -20,8 +20,13 @@ import lombok.Setter;
 public class UserEntity extends BaseEntity {
 
     private String name;
+
+    @Column(name = "auth_id", unique = true)
     private String authId;
+
+    @Column(name = "email", unique = true)
     private String email;
+
     private String phone;
 
     @ElementCollection(targetClass = UserRole.class)
@@ -41,6 +46,13 @@ public class UserEntity extends BaseEntity {
                 .createdAt(super.getCreatedAt())
                 .updatedAt(super.getUpdatedAt())
                 .build();
+    }
+
+    public void update(User user) {
+        this.name = user.getName() != null ? user.getName() : this.name;
+        this.email = user.getEmail() != null ? user.getEmail() : this.email;
+        this.phone = user.getPhone() != null ? user.getPhone() : this.phone;
+        this.roles.addAll(user.getRoles());
     }
 
     public UserEntity(User user) {

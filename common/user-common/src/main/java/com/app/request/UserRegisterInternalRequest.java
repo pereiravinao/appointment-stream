@@ -5,9 +5,11 @@ import java.util.Set;
 import com.app.enums.UserRole;
 import com.app.model.User;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UserRegisterInternalRequest {
 
     private String authId;

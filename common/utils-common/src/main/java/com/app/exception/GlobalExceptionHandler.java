@@ -50,6 +50,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(getErrorResponse(ex.getStatus(), ex.getMessage(), ex.getStackTrace().toString()));
     }
 
+    @ExceptionHandler(ServicesExceptionHandler.class)
+    public ResponseEntity<Map<String, Object>> handleServicesException(ServicesExceptionHandler ex) {
+        logger.error("Services error: ", ex);
+        return ResponseEntity.status(ex.getStatus())
+                .body(getErrorResponse(ex.getStatus(), ex.getMessage(), ex.getStackTrace().toString()));
+    }
+
     private Map<String, Object> getErrorResponse(HttpStatus status, String message, String stackTrace) {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("status", status.value());

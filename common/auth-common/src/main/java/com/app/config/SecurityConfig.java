@@ -27,6 +27,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/auth/login").permitAll()
                         .requestMatchers("/v1/auth/register").permitAll()
+                        .requestMatchers("/v1/auth/logout").permitAll()
+                        .requestMatchers("/v1/auth/refresh-token").permitAll()
+                        .requestMatchers("/v1/auth/validate-token").permitAll()
+                        .requestMatchers("/v1/users/register").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(securityAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

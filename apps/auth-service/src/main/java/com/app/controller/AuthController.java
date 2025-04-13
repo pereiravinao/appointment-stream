@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.model.UserAuth;
 import com.app.request.LoginRequest;
 import com.app.request.RegisterRequest;
+import com.app.response.UserAuthResponse;
 import com.app.service.interfaces.AuthService;
 
 import jakarta.servlet.http.Cookie;
@@ -29,11 +29,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+    public ResponseEntity<UserAuthResponse> login(@Valid @RequestBody LoginRequest loginRequest,
+            HttpServletResponse response) {
         var userAuth = this.authService.login(loginRequest);
         this.buildCookie(response, ACCESS_TOKEN_NAME, userAuth.getToken());
         this.buildCookie(response, REFRESH_TOKEN_NAME, userAuth.getRefreshToken());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new UserAuthResponse(userAuth));
     }
 
     @PostMapping("/logout")
@@ -46,12 +47,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserAuth> register(@Valid @RequestBody RegisterRequest registerRequest,
+    public ResponseEntity<UserAuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest,
             HttpServletResponse response) {
         var userAuth = this.authService.register(registerRequest);
         this.buildCookie(response, ACCESS_TOKEN_NAME, userAuth.getToken());
         this.buildCookie(response, REFRESH_TOKEN_NAME, userAuth.getRefreshToken());
-        return new ResponseEntity<>(userAuth, HttpStatus.CREATED);
+        return new ResponseEntity<>(new UserAuthResponse(userAuth), HttpStatus.CREATED);
     }
 
     private void buildCookie(HttpServletResponse response, String tokenName, String token) {

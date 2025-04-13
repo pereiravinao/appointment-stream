@@ -12,6 +12,8 @@ import com.app.model.UserAuth;
 import com.app.repository.AuthUserRepository;
 import com.app.request.LoginRequest;
 import com.app.request.RegisterRequest;
+import com.app.request.UserRegisterInternalRequest;
+import com.app.service.UserFeignServiceImpl;
 import com.app.service.interfaces.AuthService;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ public class AuthBaseServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenServiceImpl jwtTokenService;
     private final RefreshTokenServiceImpl refreshTokenService;
+    private final UserFeignServiceImpl userFeignService;
 
     @Override
     public UserAuth login(LoginRequest loginRequest) {
@@ -59,7 +62,19 @@ public class AuthBaseServiceImpl implements AuthService {
                 .password(this.passwordEncoder.encode(registerRequest.getPassword()))
                 .roles(Set.of(UserRole.USER))
                 .build();
+
+        this.registerUserBase(registerRequest);
         return this.authUserRepository.save(new UserAuthEntity(userAuth)).toModel();
+    }
+
+    private void registerUserBase(RegisterRequest registerRequest) {
+        var userRegisterInternalRequest = UserRegisterInternalRequest.builder()
+                .email(registerRequest.getEmail())
+                .authId(registerRequest.getEmail())
+                .name(registerRequest.getName())
+                .roles(Set.of(UserRole.USER))
+                .build();
+        this.userFeignService.registerUser(userRegisterInternalRequest);
     }
 
 }

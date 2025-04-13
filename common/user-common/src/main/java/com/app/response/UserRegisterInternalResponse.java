@@ -1,5 +1,6 @@
 package com.app.response;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import com.app.enums.UserRole;
@@ -10,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserRegisterInternalResponse {
+public class UserRegisterInternalResponse implements Serializable {
 
     private String authId;
     private String name;
