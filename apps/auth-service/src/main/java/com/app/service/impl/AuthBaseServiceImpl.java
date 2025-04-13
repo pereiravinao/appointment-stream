@@ -59,20 +59,27 @@ public class AuthBaseServiceImpl implements AuthService {
         }
         var userAuth = UserAuth.builder()
                 .email(registerRequest.getEmail())
+                .name(registerRequest.getName())
                 .password(this.passwordEncoder.encode(registerRequest.getPassword()))
                 .roles(Set.of(UserRole.USER))
                 .build();
 
-        this.registerUserBase(registerRequest);
-        return this.authUserRepository.save(new UserAuthEntity(userAuth)).toModel();
+        userAuth = this.authUserRepository.save(new UserAuthEntity(userAuth)).toModel();
+        this.registerUserBase(userAuth);
+
+        var token = this.jwtTokenService.generateToken(userAuth);
+        var refreshToken = this.refreshTokenService.generateRefreshToken(userAuth.getEmail());
+        userAuth.setToken(token);
+        userAuth.setRefreshToken(refreshToken);
+        return userAuth;
     }
 
-    private void registerUserBase(RegisterRequest registerRequest) {
+    private void registerUserBase(UserAuth userAuth) {
         var userRegisterInternalRequest = UserRegisterInternalRequest.builder()
-                .email(registerRequest.getEmail())
-                .authId(registerRequest.getEmail())
-                .name(registerRequest.getName())
-                .roles(Set.of(UserRole.USER))
+                .email(userAuth.getEmail())
+                .name(userAuth.getName())
+                .authId(userAuth.getId())
+                .roles(userAuth.getRoles())
                 .build();
         this.userFeignService.registerUser(userRegisterInternalRequest);
     }

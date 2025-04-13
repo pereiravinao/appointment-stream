@@ -26,6 +26,8 @@ public class UserAuthEntity {
     @Indexed(unique = true)
     private String email;
 
+    private String name;
+
     private String password;
 
     @Field(targetType = FieldType.STRING)
@@ -34,6 +36,7 @@ public class UserAuthEntity {
     public UserAuthEntity(UserAuth userAuth) {
         this.id = userAuth.getId();
         this.email = userAuth.getEmail();
+        this.name = userAuth.getName();
         this.password = userAuth.getPassword();
         this.roles = userAuth.getRoles();
     }
@@ -41,6 +44,7 @@ public class UserAuthEntity {
     public UserAuth toModel() {
         return UserAuth.builder()
                 .id(this.id)
+                .name(this.name)
                 .email(this.email)
                 .password(this.password)
                 .roles(this.roles)

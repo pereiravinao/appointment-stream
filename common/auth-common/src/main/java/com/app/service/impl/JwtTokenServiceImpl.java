@@ -48,7 +48,7 @@ public class JwtTokenServiceImpl {
         return createToken(claims, userDetails.getEmail(), jwtExpiration);
     }
 
-    public UserAuth getUserDetailsFromToken(String token) {
+    public UserAuth decodeToken(String token) {
         var claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)))
                 .build()

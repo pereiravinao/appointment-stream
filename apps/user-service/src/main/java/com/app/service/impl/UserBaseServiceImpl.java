@@ -7,6 +7,7 @@ import com.app.exception.user.UserExceptionHandler;
 import com.app.model.User;
 import com.app.repository.UserRepository;
 import com.app.service.interfaces.UserService;
+import com.app.utils.SecurityUtils;
 
 import lombok.AllArgsConstructor;
 
@@ -31,5 +32,12 @@ public class UserBaseServiceImpl implements UserService {
             return this.userRepository.save(userEntity.get()).toModel();
         }
         return this.userRepository.save(new UserEntity(user)).toModel();
+    }
+
+    @Override
+    public User findMe() {
+        var userAuth = SecurityUtils.getCurrentUser();
+        var user = this.userRepository.findByAuthId(userAuth.getId()).orElseThrow(UserExceptionHandler::notFound);
+        return user.toModel();
     }
 }

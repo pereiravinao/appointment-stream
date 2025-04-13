@@ -11,16 +11,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.app.enums.UserRole;
-import com.app.model.User;
+import com.app.model.UserAuth;
+import com.app.service.impl.JwtTokenServiceImpl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
+
+    private final JwtTokenServiceImpl jwtTokenService;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -53,15 +57,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         return token;
     }
 
-    private User extractUser(String token) {
-        return User.builder()
-                .id(1L)
-                .authId("1234567890")
-                .name("John Doe")
-                .email("john.doe@example.com")
-                .phone("1234567890")
-                .roles(Collections.singleton(UserRole.USER))
-                .build();
+    private UserAuth extractUser(String token) {
+        var userAuth = this.jwtTokenService.decodeToken(token);
+        return userAuth;
     }
 
 }

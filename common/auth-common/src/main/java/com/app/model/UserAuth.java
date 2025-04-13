@@ -13,6 +13,7 @@ import lombok.Setter;
 @Builder
 public class UserAuth {
     private String id;
+    private String name;
     private String email;
     private String password;
     private Set<UserRole> roles;

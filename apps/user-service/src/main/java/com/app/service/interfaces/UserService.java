@@ -7,4 +7,6 @@ public interface UserService {
     User findByAuthId(String authId);
 
     User save(User user);
+
+    User findMe();
 }
