@@ -19,6 +19,14 @@ public class AuthExceptionHandler extends RuntimeException {
         return new AuthExceptionHandler("E-mail já cadastrado.", HttpStatus.CONFLICT);
     }
 
+    public static AuthExceptionHandler unauthorized() {
+        return new AuthExceptionHandler("Acesso não autorizado.", HttpStatus.UNAUTHORIZED);
+    }
+
+    public static AuthExceptionHandler forbidden() {
+        return new AuthExceptionHandler("Sem permissão para acessar este recurso.", HttpStatus.FORBIDDEN);
+    }
+
     public HttpStatus getStatus() {
         return this.status;
     }

@@ -14,11 +14,20 @@
     <description>Common authentication utilities</description>
 
     <dependencies>
+        <!-- User Common -->
         <dependency>
             <groupId>com.apps</groupId>
             <artifactId>user-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- Utils Common -->
+        <dependency>
+            <groupId>com.apps</groupId>
+            <artifactId>utils-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Spring Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,5 +84,10 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!-- AOP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
     </dependencies>
 </project> 

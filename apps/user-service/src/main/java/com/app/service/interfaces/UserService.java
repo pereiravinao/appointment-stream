@@ -4,5 +4,7 @@ import com.app.model.User;
 
 public interface UserService {
 
-    User getByAuthId(String authId);
+    User findByAuthId(String authId);
+
+    User save(User user);
 }
