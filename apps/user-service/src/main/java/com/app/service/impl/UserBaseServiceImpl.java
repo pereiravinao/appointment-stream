@@ -40,4 +40,19 @@ public class UserBaseServiceImpl implements UserService {
         var user = this.userRepository.findByAuthId(userAuth.getId()).orElseThrow(UserExceptionHandler::notFound);
         return user.toModel();
     }
+
+    @Override
+    public User update(Long id, User user) {
+        var userEntity = this.userRepository.findById(id).orElseThrow(UserExceptionHandler::notFound);
+        this.validateOwnerAdmin(userEntity.toModel());
+        userEntity.update(user);
+        return this.userRepository.save(userEntity).toModel();
+    }
+
+    private void validateOwnerAdmin(User user) {
+        if (!SecurityUtils.hasOwnerAdmin(user.getId())) {
+            throw UserExceptionHandler.notFound();
+        }
+    }
+
 }

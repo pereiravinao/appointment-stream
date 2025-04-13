@@ -9,4 +9,6 @@ public interface UserService {
     User save(User user);
 
     User findMe();
+
+    User update(Long id, User user);
 }
