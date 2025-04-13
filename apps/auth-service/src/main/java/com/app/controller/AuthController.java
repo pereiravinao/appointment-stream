@@ -15,6 +15,7 @@ import com.app.service.interfaces.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,7 +29,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         var userAuth = this.authService.login(loginRequest);
         this.buildCookie(response, ACCESS_TOKEN_NAME, userAuth.getToken());
         this.buildCookie(response, REFRESH_TOKEN_NAME, userAuth.getRefreshToken());
@@ -45,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserAuth> register(@RequestBody RegisterRequest registerRequest,
+    public ResponseEntity<UserAuth> register(@Valid @RequestBody RegisterRequest registerRequest,
             HttpServletResponse response) {
         var userAuth = this.authService.register(registerRequest);
         this.buildCookie(response, ACCESS_TOKEN_NAME, userAuth.getToken());

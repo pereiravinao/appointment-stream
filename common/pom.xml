@@ -16,6 +16,7 @@
         <module>auth-common</module>
         <module>user-common</module>
         <module>utils-common</module>
+        <module>base-common</module>
     </modules>
 
     <dependencies>

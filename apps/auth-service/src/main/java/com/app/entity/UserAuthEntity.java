@@ -5,6 +5,8 @@ import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import com.app.enums.UserRole;
 import com.app.model.UserAuth;
@@ -26,6 +28,7 @@ public class UserAuthEntity {
 
     private String password;
 
+    @Field(targetType = FieldType.STRING)
     private Set<UserRole> roles;
 
     public UserAuthEntity(UserAuth userAuth) {

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: appointment-postgres
+    environment:
+      POSTGRES_DB: appointment-stream
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - appointment-network
+
+  mongo:
+    image: mongo:latest
+    container_name: appointment-mongo
+    environment:
+      MONGO_INITDB_DATABASE: auth_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - appointment-network
+
+  mongo-express:
+    image: mongo-express
+    container_name: appointment-mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_BASICAUTH: "true"
+      ME_CONFIG_SITE_SESSIONSECRET: secret
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    networks:
+      - appointment-network
+
+networks:
+  appointment-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongo_data: 

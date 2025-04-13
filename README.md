@@ -23,6 +23,10 @@ O sistema é composto pelos seguintes microserviços:
 - Maven
 - Lombok
 - Spring Boot Dependencies
+- Docker & Docker Compose
+- PostgreSQL 15
+- MongoDB
+- Mongo Express
 
 ## Estrutura do Projeto
 
@@ -36,6 +40,7 @@ appointment-stream/
 │   └── user-service/             # Serviço de usuários
 ├── .mvn/                         # Configurações do Maven Wrapper
 ├── .vscode/                      # Configurações do VS Code
+├── docker-compose.yml            # Configuração do Docker Compose
 └── pom.xml                       # Configuração principal do Maven
 ```
 
@@ -44,12 +49,32 @@ appointment-stream/
 - Java 21
 - Maven 3.6+
 - Git
+- Docker
+- Docker Compose
 
 ## Configuração do Ambiente
 
 1. Clone o repositório
 2. Certifique-se de ter o Java 21 instalado
 3. Execute `mvn clean install` na raiz do projeto
+
+### Configuração do Docker
+
+O projeto utiliza Docker para gerenciar os serviços de banco de dados. Para iniciar os containers, execute:
+
+```bash
+docker-compose up -d
+```
+
+Isso iniciará os seguintes serviços:
+- PostgreSQL na porta 5432
+- MongoDB na porta 27017
+- Mongo Express (interface web do MongoDB) na porta 8081
+
+Para parar os containers:
+```bash
+docker-compose down
+```
 
 ## Desenvolvimento
 
