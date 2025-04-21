@@ -10,11 +10,13 @@ import lombok.Getter;
 @Getter
 public class UserAuthResponse {
 
-    private String id;
+    private String authId;
+    private Long id;
     private String email;
     private Set<UserRole> roles;
 
     public UserAuthResponse(UserAuth userAuth) {
+        this.authId = userAuth.getAuthId();
         this.id = userAuth.getId();
         this.email = userAuth.getEmail();
         this.roles = userAuth.getRoles();

@@ -64,8 +64,9 @@ public class AuthBaseServiceImpl implements AuthService {
                 .roles(Set.of(UserRole.USER))
                 .build();
 
+        var userId = this.registerUserBase(userAuth);
+        userAuth.setId(userId);
         userAuth = this.authUserRepository.save(new UserAuthEntity(userAuth)).toModel();
-        this.registerUserBase(userAuth);
 
         var token = this.jwtTokenService.generateToken(userAuth);
         var refreshToken = this.refreshTokenService.generateRefreshToken(userAuth.getEmail());
@@ -74,14 +75,14 @@ public class AuthBaseServiceImpl implements AuthService {
         return userAuth;
     }
 
-    private void registerUserBase(UserAuth userAuth) {
+    private Long registerUserBase(UserAuth userAuth) {
         var userRegisterInternalRequest = UserRegisterInternalRequest.builder()
                 .email(userAuth.getEmail())
                 .name(userAuth.getName())
-                .authId(userAuth.getId())
+                .authId(userAuth.getAuthId())
                 .roles(userAuth.getRoles())
                 .build();
-        this.userFeignService.registerUser(userRegisterInternalRequest);
+        return this.userFeignService.registerUser(userRegisterInternalRequest);
     }
 
 }

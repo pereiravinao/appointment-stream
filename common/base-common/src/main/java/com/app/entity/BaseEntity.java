@@ -32,6 +32,9 @@ public class BaseEntity implements Serializable {
     @Version
     private Long version;
 
+    @Column(name = "owner_id", nullable = true, updatable = true)
+    private Long ownerId;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
@@ -40,6 +43,10 @@ public class BaseEntity implements Serializable {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public boolean isOwnedBy(Long userId) {
+        return this.ownerId != null && this.ownerId.equals(userId);
     }
 
 }

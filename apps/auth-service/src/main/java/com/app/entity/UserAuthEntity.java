@@ -21,7 +21,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserAuthEntity {
     @Id
-    private String id;
+    private String authId;
+    
+    private Long id;
 
     @Indexed(unique = true)
     private String email;
@@ -35,6 +37,7 @@ public class UserAuthEntity {
 
     public UserAuthEntity(UserAuth userAuth) {
         this.id = userAuth.getId();
+        this.authId = userAuth.getAuthId();
         this.email = userAuth.getEmail();
         this.name = userAuth.getName();
         this.password = userAuth.getPassword();
@@ -44,6 +47,7 @@ public class UserAuthEntity {
     public UserAuth toModel() {
         return UserAuth.builder()
                 .id(this.id)
+                .authId(this.authId)
                 .name(this.name)
                 .email(this.email)
                 .password(this.password)

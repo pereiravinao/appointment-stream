@@ -19,12 +19,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.apps</groupId>
-			<artifactId>auth-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.apps</groupId>
 			<artifactId>utils-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>

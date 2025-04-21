@@ -9,8 +9,9 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,11 +39,8 @@ public class UserEntity extends BaseEntity {
     @CollectionTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @MapKeyColumn(name = "role")
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private UserEntity ownerAdmin;
 
     public User toModel() {
         return User.builder()
@@ -54,7 +52,7 @@ public class UserEntity extends BaseEntity {
                 .roles(this.roles)
                 .createdAt(super.getCreatedAt())
                 .updatedAt(super.getUpdatedAt())
-                .ownerAdmin(this.ownerAdmin != null ? this.ownerAdmin.toModel() : null)
+                .ownerId(super.getOwnerId())
                 .build();
     }
 
@@ -74,6 +72,6 @@ public class UserEntity extends BaseEntity {
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.roles = user.getRoles();
-        this.ownerAdmin = user.getOwnerAdmin() != null ? new UserEntity(user.getOwnerAdmin()) : null;
+        super.setOwnerId(user.getOwnerId());
     }
 }

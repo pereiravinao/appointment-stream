@@ -1,5 +1,6 @@
 package com.app.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.annotation.InternalServiceOnly;
+import com.app.criteria.UserCriteria;
 import com.app.request.UserRegisterInternalRequest;
 import com.app.request.UserRequest;
 import com.app.response.UserFeignResponse;
@@ -48,9 +50,16 @@ public class UserController {
     }
 
     @PutMapping("/{id}/roles")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserResponse> updateRoles(@PathVariable Long id, @RequestBody UserRequest request) {
         var user = this.userService.update(id, request.toModel());
         return ResponseEntity.ok(new UserResponse(user));
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<UserResponse>> findAll(UserCriteria criteria) {
+        var users = this.userService.findAll(criteria);
+        return ResponseEntity.ok(users.map(UserResponse::new));
     }
 }

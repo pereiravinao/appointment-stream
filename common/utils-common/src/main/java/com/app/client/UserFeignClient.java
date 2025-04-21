@@ -13,7 +13,7 @@ import com.app.request.UserRegisterInternalRequest;
 import com.app.response.UserFeignResponse;
 import com.app.response.UserRegisterInternalResponse;
 
-@FeignClient(name = "http://localhost:8082", configuration = FeignConfig.class)
+@FeignClient(name = "user-service", url = "http://localhost:8082", configuration = FeignConfig.class)
 public interface UserFeignClient {
 
     String USER_SERVICE_PATH = "/api/v1/users";

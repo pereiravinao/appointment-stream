@@ -21,5 +21,5 @@ public class User {
     private Set<UserRole> roles;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private User ownerAdmin;
+    private Long ownerId;
 }

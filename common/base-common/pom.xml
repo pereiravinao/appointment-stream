@@ -26,6 +26,10 @@
             <version>42.7.3</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.apps</groupId>
+            <artifactId>auth-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project> 

@@ -16,12 +16,14 @@ public class UserFeignServiceImpl {
 
     private final UserFeignClient userClient;
 
-    public void registerUser(UserRegisterInternalRequest userRegisterInternalRequest) {
+    public Long registerUser(UserRegisterInternalRequest userRegisterInternalRequest) {
         var response = this.userClient.registerUser(userRegisterInternalRequest,
                 UserFeignClient.INTERNAL_SERVICE_VALUE);
         if (response.getStatusCode().is2xxSuccessful()) {
             log.info("Usuário registrado com sucesso: {}", response.getBody());
+            return response.getBody().getId();
         }
+        return null;
     }
 
     public User findByAuthId(String authId) {

@@ -13,6 +13,7 @@ import lombok.Data;
 @Builder
 public class UserRegisterInternalResponse implements Serializable {
 
+    private Long id;
     private String authId;
     private String name;
     private String email;
@@ -20,6 +21,7 @@ public class UserRegisterInternalResponse implements Serializable {
 
     public static UserRegisterInternalResponse fromModel(User user) {
         return UserRegisterInternalResponse.builder()
+                .id(user.getId())
                 .authId(user.getAuthId())
                 .name(user.getName())
                 .email(user.getEmail())

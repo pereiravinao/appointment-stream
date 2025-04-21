@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -20,6 +23,30 @@ import com.app.exception.user.UserExceptionHandler;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDeniedException(AccessDeniedException ex) {
+        logger.error("Access denied: ", ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(getErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage(),
+                        ex.getStackTrace().toString()));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthenticationException(AuthenticationException ex) {
+        logger.error("Authentication error: ", ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(getErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(),
+                        ex.getStackTrace().toString()));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Map<String, Object>> handleBadCredentialsException(BadCredentialsException ex) {
+        logger.error("Bad credentials: ", ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(getErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(),
+                        ex.getStackTrace().toString()));
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {

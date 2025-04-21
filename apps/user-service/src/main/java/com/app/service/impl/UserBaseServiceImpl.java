@@ -1,7 +1,9 @@
 package com.app.service.impl;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.app.criteria.UserCriteria;
 import com.app.entity.UserEntity;
 import com.app.exception.user.UserExceptionHandler;
 import com.app.model.User;
@@ -25,6 +27,12 @@ public class UserBaseServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findAll(UserCriteria criteria) {
+        return this.userRepository.findAll(criteria)
+                .map(UserEntity::toModel);
+    }
+
+    @Override
     public User save(User user) {
         var userEntity = this.userRepository.findByAuthId(user.getAuthId());
         if (userEntity.isPresent()) {
@@ -36,8 +44,8 @@ public class UserBaseServiceImpl implements UserService {
 
     @Override
     public User findMe() {
-        var userAuth = SecurityUtils.getCurrentUser();
-        var user = this.userRepository.findByAuthId(userAuth.getId()).orElseThrow(UserExceptionHandler::notFound);
+        var userAuth = SecurityUtils.getCurrentUserAuth();
+        var user = this.userRepository.findByAuthId(userAuth.getAuthId()).orElseThrow(UserExceptionHandler::notFound);
         return user.toModel();
     }
 

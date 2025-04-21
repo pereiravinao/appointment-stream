@@ -19,17 +19,21 @@ public class SecurityUtils {
         }
     }
 
-    public static UserAuth getCurrentUser() {
+    public static UserAuth getCurrentUserAuth() {
         return (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public static boolean isAdmin() {
-        return getCurrentUser().getRoles().contains(UserRole.ADMIN);
+        return getCurrentUserAuth().getRoles().contains(UserRole.ADMIN);
+    }
+
+    public static User getCurrentUser() {
+        return findUserByAuthId(getCurrentUserAuth().getAuthId());
     }
 
     public static boolean hasOwnerAdmin(Long userId) {
-        User user = findUserByAuthId(getCurrentUser().getId());
-        return user.getOwnerAdmin() != null && user.getOwnerAdmin().getId().equals(userId);
+        User user = findUserByAuthId(getCurrentUserAuth().getAuthId());
+        return user.getOwnerId() != null && user.getOwnerId().equals(userId);
     }
 
     private static User findUserByAuthId(String authId) {

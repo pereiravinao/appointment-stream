@@ -44,6 +44,7 @@ public class JwtTokenServiceImpl {
 
             claims.put("email", user.getEmail());
             claims.put("id", user.getId());
+            claims.put("authId", user.getAuthId());
         }
         return createToken(claims, userDetails.getEmail(), jwtExpiration);
     }
@@ -57,11 +58,13 @@ public class JwtTokenServiceImpl {
 
         var email = claims.get("email");
         var id = claims.get("id");
+        var authId = claims.get("authId");
         var roles = claims.get("roles");
 
         var user = UserAuth.builder()
                 .email(email.toString())
-                .id(id.toString())
+                .id(Long.parseLong(id.toString()))
+                .authId(authId.toString())
                 .roles(((List<?>) roles).stream()
                         .map(Object::toString)
                         .map(UserRole::valueOf)

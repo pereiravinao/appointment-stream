@@ -12,7 +12,8 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UserAuth {
-    private String id;
+    private Long id;
+    private String authId;
     private String name;
     private String email;
     private String password;
