@@ -18,6 +18,7 @@
         <module>user-service</module>
         <module>appointment-service</module>
         <module>notification-service</module>
+        <module>history-service</module>
     </modules>
 
     <dependencies>

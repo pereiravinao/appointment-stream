@@ -1,0 +1,22 @@
+extend type Query {
+    findAll: [AppointmentEvent!]!
+    findById(id: ID!): AppointmentEvent
+}
+
+type AppointmentEvent {
+    id: ID!
+    appointmentId: Int
+    name: String
+    status: String
+    starTime: String
+    endTime: String
+    type: String
+    createdById: Int
+    consumer: User
+}
+
+type User {
+    id: ID!
+    name: String
+    email: String
+}
