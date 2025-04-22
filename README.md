@@ -11,6 +11,9 @@ O Appointment Stream é uma aplicação distribuída desenvolvida em Java utiliz
 O sistema é composto pelos seguintes microserviços:
 
 - **appointment-service**: Gerenciamento principal de agendamentos
+  - API GraphQL para consultas e mutações de agendamentos
+  - Suporte a queries e mutations
+  - Validação de schemas GraphQL
 - **auth-service**: Autenticação e autorização
 - **notification-service**: Serviço de notificações
 - **history-service**: Registro de histórico
@@ -23,6 +26,7 @@ O sistema é composto pelos seguintes microserviços:
 - Maven
 - Lombok
 - Spring Boot Dependencies
+- GraphQL
 - Docker & Docker Compose
 - PostgreSQL 15
 - MongoDB
