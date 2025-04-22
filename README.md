@@ -31,6 +31,7 @@ O sistema é composto pelos seguintes microserviços:
 - PostgreSQL 15
 - MongoDB
 - Mongo Express
+- RabbitMQ
 
 ## Estrutura do Projeto
 
@@ -42,8 +43,12 @@ appointment-stream/
 │   ├── notification-service/      # Serviço de notificações
 │   ├── history-service/          # Serviço de histórico
 │   └── user-service/             # Serviço de usuários
-├── .mvn/                         # Configurações do Maven Wrapper
-├── .vscode/                      # Configurações do VS Code
+├── common/                        # Módulos comuns compartilhados
+│   ├── auth-common/              # Componentes comuns de autenticação
+│   ├── base-common/              # Componentes base comuns
+│   ├── message-common/           # Componentes comuns de mensageria
+│   ├── user-common/              # Componentes comuns de usuário
+│   └── utils-common/             # Utilitários comuns
 ├── docker-compose.yml            # Configuração do Docker Compose
 └── pom.xml                       # Configuração principal do Maven
 ```
@@ -55,6 +60,7 @@ appointment-stream/
 - Git
 - Docker
 - Docker Compose
+- RabbitMQ
 
 ## Configuração do Ambiente
 
@@ -64,7 +70,7 @@ appointment-stream/
 
 ### Configuração do Docker
 
-O projeto utiliza Docker para gerenciar os serviços de banco de dados. Para iniciar os containers, execute:
+O projeto utiliza Docker para gerenciar os serviços de banco de dados e mensageria. Para iniciar os containers, execute:
 
 ```bash
 docker-compose up -d
@@ -74,11 +80,31 @@ Isso iniciará os seguintes serviços:
 - PostgreSQL na porta 5432
 - MongoDB na porta 27017
 - Mongo Express (interface web do MongoDB) na porta 8081
+- RabbitMQ na porta 5672 (AMQP) e 15672 (interface web)
 
 Para parar os containers:
 ```bash
 docker-compose down
 ```
+
+## Funcionalidades
+
+### Appointment Service
+- Gerenciamento completo de agendamentos
+- API GraphQL para consultas e mutações
+- Integração com RabbitMQ para eventos de agendamento
+- Validação de schemas GraphQL
+
+### Notification Service
+- Processamento de eventos de agendamento
+- Notificações em tempo real
+- Integração com RabbitMQ para recebimento de eventos
+
+### User Service
+- Gerenciamento de usuários
+- Autenticação e autorização
+- Endpoints para detalhes de usuário
+- Integração com outros serviços via Feign Client
 
 ## Desenvolvimento
 
