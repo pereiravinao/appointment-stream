@@ -4,10 +4,16 @@ import java.util.Set;
 
 import com.app.enums.UserRole;
 import com.app.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserFeignResponse {
 
     private Long id;
@@ -16,6 +22,7 @@ public class UserFeignResponse {
     private String email;
     private String phone;
     private Set<UserRole> roles;
+    private Long ownerId;
 
     public UserFeignResponse(User user) {
         this.id = user.getId();
@@ -24,6 +31,7 @@ public class UserFeignResponse {
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.roles = user.getRoles();
+        this.ownerId = user.getOwnerId();
     }
 
     public User toModel() {
@@ -34,6 +42,7 @@ public class UserFeignResponse {
                 .email(this.email)
                 .phone(this.phone)
                 .roles(this.roles)
+                .ownerId(this.ownerId)
                 .build();
     }
 }

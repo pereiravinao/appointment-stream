@@ -35,6 +35,13 @@ public class UserController {
         return ResponseEntity.ok(new UserFeignResponse(user));
     }
 
+    @GetMapping("/{id}/details")
+    @InternalServiceOnly
+    public ResponseEntity<UserFeignResponse> getById(@PathVariable Long id) {
+        var user = this.userService.findById(id);
+        return ResponseEntity.ok(new UserFeignResponse(user));
+    }
+
     @PostMapping("/register")
     @InternalServiceOnly
     public ResponseEntity<UserFeignResponse> register(@RequestBody UserRegisterInternalRequest request) {

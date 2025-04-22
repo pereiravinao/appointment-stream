@@ -27,4 +27,8 @@ public interface UserFeignClient {
     @GetMapping(USER_SERVICE_PATH + "/{authId}")
     ResponseEntity<UserFeignResponse> findByAuthId(@PathVariable String authId,
             @RequestHeader(HEADER_INTERNAL_SERVICE) String internalService);
+
+    @GetMapping(USER_SERVICE_PATH + "/{id}/details")
+    ResponseEntity<UserFeignResponse> findById(@PathVariable Long id,
+            @RequestHeader(HEADER_INTERNAL_SERVICE) String internalService);
 }

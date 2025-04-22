@@ -46,7 +46,7 @@ public class BaseEntity implements Serializable {
     }
 
     public boolean isOwnedBy(Long userId) {
-        return this.ownerId != null && this.ownerId.equals(userId);
+        return this.ownerId == null || this.ownerId.equals(userId);
     }
 
 }

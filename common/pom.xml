@@ -17,6 +17,7 @@
         <module>user-common</module>
         <module>utils-common</module>
         <module>base-common</module>
+        <module>message-common</module>
     </modules>
 
     <dependencies>

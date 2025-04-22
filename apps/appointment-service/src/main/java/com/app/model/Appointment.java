@@ -31,4 +31,16 @@ public class Appointment extends BaseModel {
         this.consumer = new User(consumerId);
     }
 
+    public Appointment update(Appointment appointment) {
+        this.name = appointment.getName();
+        this.description = appointment.getDescription();
+        this.status = appointment.getStatus();
+        this.starTime = appointment.getStarTime();
+        this.endTime = appointment.getEndTime();
+        this.type = appointment.getType();
+        this.createdBy = appointment.getCreatedBy();
+        this.consumer = appointment.getConsumer();
+        return this;
+    }
+
 }

@@ -27,17 +27,19 @@ public class AppointmentEntity extends BaseEntity {
     private Long consumerId;
 
     public AppointmentEntity(Appointment appointment) {
-        this.name = appointment.getName();
-        this.description = appointment.getDescription();
-        this.status = appointment.getStatus();
-        this.starTime = appointment.getStarTime();
-        this.endTime = appointment.getEndTime();
-        this.type = appointment.getType();
+        this.name = appointment.getName() != null ? appointment.getName() : this.name;
+        this.description = appointment.getDescription() != null ? appointment.getDescription() : this.description;
+        this.status = appointment.getStatus() != null ? appointment.getStatus() : this.status;
+        this.starTime = appointment.getStarTime() != null ? appointment.getStarTime() : this.starTime;
+        this.endTime = appointment.getEndTime() != null ? appointment.getEndTime() : this.endTime;
+        this.type = appointment.getType() != null ? appointment.getType() : this.type;
         if (appointment.getCreatedBy() != null) {
-            this.createdById = appointment.getCreatedBy().getId();
+            this.createdById = appointment.getCreatedBy().getId() != null ? appointment.getCreatedBy().getId()
+                    : this.createdById;
         }
         if (appointment.getConsumer() != null) {
-            this.consumerId = appointment.getConsumer().getId();
+            this.consumerId = appointment.getConsumer().getId() != null ? appointment.getConsumer().getId()
+                    : this.consumerId;
         }
     }
 

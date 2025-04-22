@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/v1/auth/refresh-token").permitAll()
                         .requestMatchers("/v1/auth/validate-token").permitAll()
                         .requestMatchers("/v1/users/register").permitAll()
+                        .requestMatchers("/v1/users/{id}/details").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(securityAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

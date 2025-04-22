@@ -27,8 +27,15 @@ public class UserBaseServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(Long id) {
+        return this.userRepository.findByIdBase(id)
+                .map(UserEntity::toModel)
+                .orElseThrow(UserExceptionHandler::notFound);
+    }
+
+    @Override
     public Page<User> findAll(UserCriteria criteria) {
-        return this.userRepository.findAll(criteria)
+        return this.userRepository.findAllBase(criteria)
                 .map(UserEntity::toModel);
     }
 
@@ -51,7 +58,7 @@ public class UserBaseServiceImpl implements UserService {
 
     @Override
     public User update(Long id, User user) {
-        var userEntity = this.userRepository.findById(id).orElseThrow(UserExceptionHandler::notFound);
+        var userEntity = this.userRepository.findByIdBase(id).orElseThrow(UserExceptionHandler::notFound);
         this.validateOwnerAdmin(userEntity.toModel());
         userEntity.update(user);
         return this.userRepository.saveBase(userEntity).toModel();

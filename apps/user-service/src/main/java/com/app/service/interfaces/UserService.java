@@ -16,4 +16,6 @@ public interface UserService {
     User update(Long id, User user);
 
     Page<User> findAll(UserCriteria criteria);
+
+    User findById(Long id);
 }

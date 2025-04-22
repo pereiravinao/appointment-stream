@@ -18,20 +18,23 @@ import com.app.utils.SecurityUtils;
 @NoRepositoryBean
 public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
 
-    default Page<T> findAll(BaseCriteria criteria) {
+    default Page<T> findAllBase(BaseCriteria criteria) {
         Specification<T> spec = new BaseSpecification<>(criteria);
         return findAll(spec, criteria.getPageable());
     }
 
     @NonNull
-    default List<T> findAll() {
+    default List<T> findAllBase() {
         return this.findAllByOwnerId(SecurityUtils.getOwnerId());
     }
 
     @NonNull
-    default Optional<T> findById(Long id) {
-        return findById(id).filter(entity -> entity.isOwnedBy(
-                SecurityUtils.getCurrentUser().getId()));
+    default Optional<T> findByIdBase(Long id) {
+        var ownerId = SecurityUtils.getOwnerId();
+        if (ownerId != null) {
+            return findById(id).filter(entity -> entity.isOwnedBy(ownerId));
+        }
+        return findById(id);
     }
 
     default T saveBase(T entity) {

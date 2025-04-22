@@ -1,30 +1,23 @@
 package com.app.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import com.app.enums.UserRole;
-import com.app.model.User;
 import com.app.model.UserAuth;
-import com.app.service.UserFeignServiceImpl;
 
 public class SecurityUtils {
 
-    private static UserFeignServiceImpl userFeignService;
-
-    @Component
-    public static class SecurityUtilsService {
-        public SecurityUtilsService(UserFeignServiceImpl userFeignService) {
-            SecurityUtils.userFeignService = userFeignService;
-        }
-    }
-
     public static UserAuth getCurrentUserAuth() {
-        return (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+        return (UserAuth) authentication.getPrincipal();
     }
 
     public static Long getOwnerId() {
         var currentUserAuth = SecurityUtils.getCurrentUserAuth();
+        if (currentUserAuth == null) return null;
         var ownerId = currentUserAuth.getOwnerId();
         return ownerId != null ? ownerId : currentUserAuth.getId();
     }
@@ -33,16 +26,9 @@ public class SecurityUtils {
         return getCurrentUserAuth().getRoles().contains(UserRole.ADMIN);
     }
 
-    public static User getCurrentUser() {
-        return findUserByAuthId(getCurrentUserAuth().getAuthId());
-    }
-
     public static boolean hasOwnerAdmin(Long userId) {
-        User user = findUserByAuthId(getCurrentUserAuth().getAuthId());
+        var user = getCurrentUserAuth();
         return user.getOwnerId() != null && user.getOwnerId().equals(userId);
     }
 
-    private static User findUserByAuthId(String authId) {
-        return userFeignService.findByAuthId(authId);
-    }
 }

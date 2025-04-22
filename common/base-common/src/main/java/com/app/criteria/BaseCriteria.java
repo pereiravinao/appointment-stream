@@ -25,7 +25,7 @@ public class BaseCriteria {
     }
 
     public Long getOwnerId() {
-        return SecurityUtils.getCurrentUserAuth().getId();
+        return SecurityUtils.getOwnerId();
     }
 
 }
