@@ -5,7 +5,7 @@ extend type Query {
 
 extend type Mutation {
     create(appointment: AppointmentInput!): Appointment
-    update(appointment: AppointmentInput!): Appointment
+    update(appointment: AppointmentUpdate!): Appointment
     delete(id: ID!): Boolean
 }
 
@@ -19,7 +19,7 @@ type Appointment {
     type: String
     createdBy: User
     consumer: User
-    ownerId: ID
+    ownerId: Int
     createdAt: String
     updatedAt: String
     version: Int
@@ -35,8 +35,15 @@ input AppointmentInput {
     name: String!
     description: String
     status: String
+    starTime: String!
+    endTime: String!
+    type: String!
+    consumerId: ID!
+}
+
+input AppointmentUpdate {
+    description: String
+    status: String
     starTime: String
     endTime: String
-    type: String
-    consumer: ID
 }

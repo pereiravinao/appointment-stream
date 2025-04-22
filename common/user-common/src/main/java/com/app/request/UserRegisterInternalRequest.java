@@ -16,6 +16,7 @@ public class UserRegisterInternalRequest {
     private String name;
     private String email;
     private Set<UserRole> roles;
+    private Long ownerId;
 
     public User toModel() {
         return User.builder()
@@ -23,6 +24,7 @@ public class UserRegisterInternalRequest {
                 .name(this.name)
                 .email(this.email)
                 .roles(this.roles)
+                .ownerId(this.ownerId)
                 .build();
     }
 }

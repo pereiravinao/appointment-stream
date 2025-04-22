@@ -45,6 +45,9 @@ public class JwtTokenServiceImpl {
             claims.put("email", user.getEmail());
             claims.put("id", user.getId());
             claims.put("authId", user.getAuthId());
+            if (user.getOwnerId() != null) {
+                claims.put("ownerId", user.getOwnerId());
+            }
         }
         return createToken(claims, userDetails.getEmail(), jwtExpiration);
     }
@@ -60,6 +63,7 @@ public class JwtTokenServiceImpl {
         var id = claims.get("id");
         var authId = claims.get("authId");
         var roles = claims.get("roles");
+        var ownerId = claims.get("ownerId");
 
         var user = UserAuth.builder()
                 .email(email.toString())
@@ -70,6 +74,10 @@ public class JwtTokenServiceImpl {
                         .map(UserRole::valueOf)
                         .collect(Collectors.toSet()))
                 .build();
+
+        if (ownerId != null) {
+            user.setOwnerId(Long.parseLong(ownerId.toString()));
+        }
 
         return user;
     }

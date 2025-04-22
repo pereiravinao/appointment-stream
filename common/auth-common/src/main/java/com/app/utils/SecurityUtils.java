@@ -24,8 +24,9 @@ public class SecurityUtils {
     }
 
     public static Long getOwnerId() {
-        return SecurityUtils.getCurrentUserAuth().getOwnerId() != null ? SecurityUtils.getCurrentUserAuth().getOwnerId()
-                : SecurityUtils.getCurrentUserAuth().getId();
+        var currentUserAuth = SecurityUtils.getCurrentUserAuth();
+        var ownerId = currentUserAuth.getOwnerId();
+        return ownerId != null ? ownerId : currentUserAuth.getId();
     }
 
     public static boolean isAdmin() {

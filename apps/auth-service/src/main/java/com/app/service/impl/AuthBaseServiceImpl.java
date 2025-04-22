@@ -60,6 +60,7 @@ public class AuthBaseServiceImpl implements AuthService {
         var userAuth = UserAuth.builder()
                 .email(registerRequest.getEmail())
                 .name(registerRequest.getName())
+                .ownerId(registerRequest.getOwnerId())
                 .password(this.passwordEncoder.encode(registerRequest.getPassword()))
                 .roles(Set.of(UserRole.USER))
                 .build();
@@ -81,6 +82,7 @@ public class AuthBaseServiceImpl implements AuthService {
                 .name(userAuth.getName())
                 .authId(userAuth.getAuthId())
                 .roles(userAuth.getRoles())
+                .ownerId(userAuth.getOwnerId())
                 .build();
         return this.userFeignService.registerUser(userRegisterInternalRequest);
     }

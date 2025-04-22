@@ -20,4 +20,6 @@ public class RegisterRequest {
     @Size(min = 3, message = "Nome deve ter no mínimo 3 caracteres")
     private String name;
 
+    private Long ownerId;
+
 }

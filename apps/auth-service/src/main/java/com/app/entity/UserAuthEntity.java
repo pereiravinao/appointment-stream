@@ -25,6 +25,8 @@ public class UserAuthEntity {
     
     private Long id;
 
+    private Long ownerId;
+
     @Indexed(unique = true)
     private String email;
 
@@ -42,12 +44,14 @@ public class UserAuthEntity {
         this.name = userAuth.getName();
         this.password = userAuth.getPassword();
         this.roles = userAuth.getRoles();
+        this.ownerId = userAuth.getOwnerId();
     }
 
     public UserAuth toModel() {
         return UserAuth.builder()
                 .id(this.id)
                 .authId(this.authId)
+                .ownerId(this.ownerId)
                 .name(this.name)
                 .email(this.email)
                 .password(this.password)

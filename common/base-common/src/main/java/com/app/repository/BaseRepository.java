@@ -1,5 +1,6 @@
 package com.app.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -23,6 +24,11 @@ public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, L
     }
 
     @NonNull
+    default List<T> findAll() {
+        return this.findAllByOwnerId(SecurityUtils.getOwnerId());
+    }
+
+    @NonNull
     default Optional<T> findById(Long id) {
         return findById(id).filter(entity -> entity.isOwnedBy(
                 SecurityUtils.getCurrentUser().getId()));
@@ -32,4 +38,6 @@ public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, L
         entity.setOwnerId(SecurityUtils.getOwnerId());
         return save(entity);
     }
+
+    List<T> findAllByOwnerId(Long ownerId);
 }
