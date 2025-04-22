@@ -25,6 +25,8 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/graphiql/**").permitAll()
+                        .requestMatchers("/graphql/**").permitAll()
                         .requestMatchers("/v1/auth/login").permitAll()
                         .requestMatchers("/v1/auth/register").permitAll()
                         .requestMatchers("/v1/auth/logout").permitAll()

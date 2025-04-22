@@ -20,4 +20,5 @@ public class UserAuth {
     private Set<UserRole> roles;
     private String token;
     private String refreshToken;
+    private Long ownerId;
 }

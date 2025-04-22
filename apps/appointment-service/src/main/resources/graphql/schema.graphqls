@@ -1,0 +1,42 @@
+extend type Query {
+    findAll: [Appointment!]!
+    findById(id: ID!): Appointment
+}
+
+extend type Mutation {
+    create(appointment: AppointmentInput!): Appointment
+    update(appointment: AppointmentInput!): Appointment
+    delete(id: ID!): Boolean
+}
+
+type Appointment {
+    id: ID!
+    name: String!
+    description: String
+    status: String
+    starTime: String
+    endTime: String
+    type: String
+    createdBy: User
+    consumer: User
+    ownerId: ID
+    createdAt: String
+    updatedAt: String
+    version: Int
+}
+
+type User {
+    id: ID!
+    name: String
+    email: String
+}
+
+input AppointmentInput {
+    name: String!
+    description: String
+    status: String
+    starTime: String
+    endTime: String
+    type: String
+    consumer: ID
+}

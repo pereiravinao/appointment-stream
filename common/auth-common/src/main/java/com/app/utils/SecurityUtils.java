@@ -23,6 +23,11 @@ public class SecurityUtils {
         return (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
+    public static Long getOwnerId() {
+        return SecurityUtils.getCurrentUserAuth().getOwnerId() != null ? SecurityUtils.getCurrentUserAuth().getOwnerId()
+                : SecurityUtils.getCurrentUserAuth().getId();
+    }
+
     public static boolean isAdmin() {
         return getCurrentUserAuth().getRoles().contains(UserRole.ADMIN);
     }

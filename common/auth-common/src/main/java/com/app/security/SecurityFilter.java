@@ -29,6 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
         var token = getToken(request);
         if (token == null) {
             filterChain.doFilter(request, response);
@@ -39,7 +40,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             Collection<SimpleGrantedAuthority> authorities = Collections.emptyList();
             if (user.getRoles() != null) {
-                authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString()))
+                authorities = user.getRoles().stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString()))
                         .collect(Collectors.toList());
             }
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);

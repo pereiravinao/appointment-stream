@@ -27,4 +27,9 @@ public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, L
         return findById(id).filter(entity -> entity.isOwnedBy(
                 SecurityUtils.getCurrentUser().getId()));
     }
+
+    default T saveBase(T entity) {
+        entity.setOwnerId(SecurityUtils.getOwnerId());
+        return save(entity);
+    }
 }

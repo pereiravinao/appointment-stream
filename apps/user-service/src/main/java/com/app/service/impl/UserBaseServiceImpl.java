@@ -37,9 +37,9 @@ public class UserBaseServiceImpl implements UserService {
         var userEntity = this.userRepository.findByAuthId(user.getAuthId());
         if (userEntity.isPresent()) {
             userEntity.get().update(user);
-            return this.userRepository.save(userEntity.get()).toModel();
+            return this.userRepository.saveBase(userEntity.get()).toModel();
         }
-        return this.userRepository.save(new UserEntity(user)).toModel();
+        return this.userRepository.saveBase(new UserEntity(user)).toModel();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserBaseServiceImpl implements UserService {
         var userEntity = this.userRepository.findById(id).orElseThrow(UserExceptionHandler::notFound);
         this.validateOwnerAdmin(userEntity.toModel());
         userEntity.update(user);
-        return this.userRepository.save(userEntity).toModel();
+        return this.userRepository.saveBase(userEntity).toModel();
     }
 
     private void validateOwnerAdmin(User user) {

@@ -16,6 +16,29 @@
 	<properties>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-graphql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.apps</groupId>
+			<artifactId>base-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.apps</groupId>
+			<artifactId>auth-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.apps</groupId>
+			<artifactId>utils-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 
 	</dependencies>
 
