@@ -1,7 +1,5 @@
 package com.app.criteria;
 
-import java.time.LocalDateTime;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

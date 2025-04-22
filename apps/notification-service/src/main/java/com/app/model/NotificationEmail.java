@@ -13,11 +13,6 @@ public class NotificationEmail extends Notification {
     private String subject;
     private String body;
 
-    @Override
-    public void send() {
-        System.out.println("Sending email notification to " + this.getConsumer().getEmail());
-    }
-
     public NotificationEmail(String to, String subject, String body) {
         super(NotificationType.EMAIL);
         this.to = to;
@@ -26,5 +21,6 @@ public class NotificationEmail extends Notification {
     }
 
     public NotificationEmail() {
+        super(NotificationType.EMAIL);
     }
 }

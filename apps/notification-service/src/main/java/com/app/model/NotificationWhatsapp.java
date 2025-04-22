@@ -12,11 +12,6 @@ public class NotificationWhatsapp extends Notification {
     private String to;
     private String message;
 
-    @Override
-    public void send() {
-        System.out.println("Sending whatsapp notification to " + this.getConsumer().getPhone());
-    }
-
     public NotificationWhatsapp(String to, String message) {
         super(NotificationType.WHATSAPP);
         this.to = to;

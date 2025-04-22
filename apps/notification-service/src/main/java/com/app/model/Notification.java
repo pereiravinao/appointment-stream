@@ -18,8 +18,6 @@ public abstract class Notification {
     private User consumer;
     private NotificationType type;
 
-    public abstract void send();
-
     public Notification(NotificationType type) {
         this.type = type;
     }
