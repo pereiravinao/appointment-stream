@@ -3,7 +3,6 @@ package com.app.entity;
 import java.time.LocalDateTime;
 
 import com.app.model.AppointmentEvent;
-import com.app.model.User;
 
 import jakarta.persistence.Entity;
 import lombok.Getter;

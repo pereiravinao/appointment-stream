@@ -19,6 +19,7 @@
         <module>appointment-service</module>
         <module>notification-service</module>
         <module>history-service</module>
+        <module>clinic-aissist</module>
     </modules>
 
     <dependencies>
