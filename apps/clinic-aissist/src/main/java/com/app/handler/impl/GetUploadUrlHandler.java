@@ -8,7 +8,7 @@ import com.app.enums.WebSocketMessageType;
 import com.app.handler.MessageHandlerStrategy;
 import com.app.model.WebSocketMessage;
 import com.app.response.WebSocketMessageResponse;
-import com.app.services.interfaces.AudioSessionService;
+import com.app.services.interfaces.RecordingSessionService;
 import com.app.services.interfaces.StorageService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GetUploadUrlHandler implements MessageHandlerStrategy {
 
     private final StorageService storageService;
-    private final AudioSessionService audioSessionService;
+    private final RecordingSessionService recordingSessionService;
 
     @Override
     public boolean supports(WebSocketMessageType type) {
@@ -45,12 +45,11 @@ public class GetUploadUrlHandler implements MessageHandlerStrategy {
     }
 
     private String buildRequestId(WebSocketMessage message) {
-        if (message.getPayload() != null && message.getPayload().containsKey("requestId")
-                && message.getPayload().get("requestId") != null) {
-            return (String) message.getPayload().get("requestId");
+        if (message.getRequestId() != null) {
+            return message.getRequestId();
         }
-        var session = audioSessionService.startNewSession();
-        return session.getRequestId();
+        var recordingSession = recordingSessionService.startNewSession();
+        return recordingSession.getSessionId();
     }
 
     private String buildChunkNumber(WebSocketMessage message) {

@@ -2,10 +2,10 @@ package com.app.services.interfaces;
 
 import java.util.List;
 
-import com.app.model.AudioChunk;
-import com.app.model.AudioSession;
+import com.app.model.Media;
+import com.app.model.RecordingSession;
 
 public interface TranscriptionService {
-    List<AudioChunk> transcribe(AudioSession audioSession, String audioUrl, int startingSequenceNumber);
+    List<Media> transcribe(RecordingSession audioSession, String audioUrl, int startingSequenceNumber);
 
 }

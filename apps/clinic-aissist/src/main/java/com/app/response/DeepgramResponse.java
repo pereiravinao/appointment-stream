@@ -1,11 +1,6 @@
 package com.app.response;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.app.model.AudioChunk;
-import com.app.model.AudioSession;
 
 import lombok.Data;
 
@@ -62,36 +57,6 @@ public class DeepgramResponse {
         private String text;
         private Float start;
         private Float end;
-    }
-
-    public List<AudioChunk> toAudioChunks(AudioSession session, String audioUrl, int startingSequenceNumber) {
-        List<AudioChunk> chunks = new ArrayList<>();
-        int sequence = startingSequenceNumber;
-
-        if (this.results != null && !this.results.getChannels().isEmpty()) {
-            var alternatives = this.results.getChannels().get(0).getAlternatives();
-            if (alternatives != null && !alternatives.isEmpty()) {
-                var paragraphsWrapper = alternatives.get(0).getParagraphs();
-                if (paragraphsWrapper != null && paragraphsWrapper.getParagraphs() != null) {
-                    for (var paragraph : paragraphsWrapper.getParagraphs()) {
-                        int speaker = paragraph.getSpeaker();
-                        for (var sentence : paragraph.getSentences()) {
-                            AudioChunk chunk = new AudioChunk();
-                            chunk.setAudioSession(session);
-                            chunk.setAudioUrl(audioUrl);
-                            chunk.setSequenceNumber(sequence++);
-                            chunk.setSpeakerLabel(String.valueOf(speaker));
-                            chunk.setText(sentence.getText());
-                            chunk.setStartTime(sentence.getStart());
-                            chunk.setEndTime(sentence.getEnd());
-                            chunk.setReceivedAt(LocalDateTime.now());
-                            chunks.add(chunk);
-                        }
-                    }
-                }
-            }
-        }
-        return chunks;
     }
 
 }

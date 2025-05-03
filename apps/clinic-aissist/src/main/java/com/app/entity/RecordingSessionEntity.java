@@ -3,8 +3,8 @@ package com.app.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.app.enums.AudioSessionStatus;
-import com.app.model.AudioSession;
+import com.app.enums.SessionStatus;
+import com.app.model.RecordingSession;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -14,38 +14,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "tb_audio_session")
+@Entity(name = "tb_session")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AudioSessionEntity extends BaseEntity {
+public class RecordingSessionEntity extends BaseEntity {
 
-    private String requestId;
+    private String sessionId;
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
-    private AudioSessionStatus status;
-    private String finalAudioUrl;
+    private SessionStatus status;
 
-    @OneToMany(mappedBy = "audioSession", cascade = CascadeType.ALL)
-    private List<AudioChunkEntity> audioChunks;
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    private List<MediaEntity> medias;
 
-    @OneToMany(mappedBy = "audioSession", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
     private List<TranscriptionEntity> transcriptions;
 
-    public AudioSession toModel() {
-        var audioSession = new AudioSession();
+    public RecordingSession toModel() {
+        var audioSession = new RecordingSession();
         audioSession.setId(super.getId());
         audioSession.setCreatedAt(super.getCreatedAt());
         audioSession.setUpdatedAt(super.getUpdatedAt());
         audioSession.setVersion(super.getVersion());
-        audioSession.setRequestId(this.requestId);
+        audioSession.setSessionId(this.sessionId);
         audioSession.setStartedAt(this.startedAt);
         audioSession.setEndedAt(this.endedAt);
         audioSession.setStatus(this.status);
-        audioSession.setFinalAudioUrl(this.finalAudioUrl);
-        if (this.audioChunks != null) {
-            audioSession.setAudioChunks(this.audioChunks.stream().map(AudioChunkEntity::toModel).toList());
+        if (this.medias != null) {
+            audioSession.setMedias(this.medias.stream().map(MediaEntity::toModel).toList());
         }
         if (this.transcriptions != null) {
             audioSession.setTranscriptions(this.transcriptions.stream().map(TranscriptionEntity::toModel).toList());
@@ -53,18 +51,17 @@ public class AudioSessionEntity extends BaseEntity {
         return audioSession;
     }
 
-    public AudioSessionEntity(AudioSession audioSession) {
+    public RecordingSessionEntity(RecordingSession audioSession) {
         super.setId(audioSession.getId());
         super.setCreatedAt(audioSession.getCreatedAt());
         super.setUpdatedAt(audioSession.getUpdatedAt());
         super.setVersion(audioSession.getVersion());
-        this.requestId = audioSession.getRequestId();
+        this.sessionId = audioSession.getSessionId();
         this.startedAt = audioSession.getStartedAt();
         this.endedAt = audioSession.getEndedAt();
         this.status = audioSession.getStatus();
-        this.finalAudioUrl = audioSession.getFinalAudioUrl();
-        if (audioSession.getAudioChunks() != null) {
-            this.audioChunks = audioSession.getAudioChunks().stream().map(AudioChunkEntity::new).toList();
+        if (audioSession.getMedias() != null) {
+            this.medias = audioSession.getMedias().stream().map(MediaEntity::new).toList();
         }
         if (audioSession.getTranscriptions() != null) {
             this.transcriptions = audioSession.getTranscriptions().stream().map(TranscriptionEntity::new).toList();

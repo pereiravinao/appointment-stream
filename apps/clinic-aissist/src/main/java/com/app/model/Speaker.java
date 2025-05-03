@@ -18,4 +18,9 @@ public class Speaker extends BaseModel {
     public Speaker(Long id) {
         super.setId(id);
     }
+
+    public Speaker(String name) {
+        this.name = name;
+    }
+
 }

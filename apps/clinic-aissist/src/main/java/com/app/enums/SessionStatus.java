@@ -1,6 +1,6 @@
 package com.app.enums;
 
-public enum AudioSessionStatus {
+public enum SessionStatus {
 
     IN_PROGRESS,
     COMPLETED,

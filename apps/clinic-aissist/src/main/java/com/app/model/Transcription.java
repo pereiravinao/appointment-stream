@@ -2,7 +2,10 @@ package com.app.model;
 
 import java.time.LocalDateTime;
 
+import com.app.enums.TranscriptionType;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,16 +13,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Transcription extends BaseModel {
 
-    private AudioSession audioSession;
+    private RecordingSession session;
     private String text;
-    private Speaker speaker;
+    private String speaker;
     private LocalDateTime transcribedAt;
+    private String audioUrl;
+    private TranscriptionType type;
 
-    public Transcription(String text, Long speakerId) {
+    public Transcription(String text, String speaker) {
         this.text = text;
-        this.speaker = new Speaker(speakerId);
+        this.speaker = speaker;
     }
 
 }

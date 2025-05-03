@@ -1,5 +1,6 @@
 package com.app.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -7,27 +8,48 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.app.model.AudioChunk;
-import com.app.model.AudioSession;
-import com.app.model.SpeechSegment;
+import com.app.enums.TranscriptionType;
+import com.app.model.Transcription;
 import com.app.properties.DeepgramProperties;
 import com.app.response.DeepgramResponse;
-import com.app.services.interfaces.TranscriptionService;
+import com.app.strategy.TranscriptionTypeStrategy;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TranscriptionDeepgramServiceImpl implements TranscriptionService {
+public class TranscriptionDeepgramServiceImpl implements TranscriptionTypeStrategy {
 
     private final DeepgramProperties deepgramProperties;
     private final WebClient.Builder webClientBuilder;
 
     @Override
-    public List<AudioChunk> transcribe(AudioSession audioSession, String audioUrl, int startingSequenceNumber) {
-        DeepgramResponse deepgramResponse = requestDeepgram(audioUrl);
-        List<AudioChunk> audioChunks = deepgramResponse.toAudioChunks(audioSession, audioUrl, startingSequenceNumber);
-        return audioChunks;
+    public boolean supports(TranscriptionType type) {
+        return type.equals(TranscriptionType.FULL);
+    }
+
+    @Override
+    public List<Transcription> transcribe(Transcription transcription) {
+        DeepgramResponse deepgramResponse = requestDeepgram(transcription.getAudioUrl());
+        List<Transcription> transcriptions = new ArrayList<>();
+        deepgramResponse.getResults().getChannels().forEach(channel -> {
+            channel.getAlternatives().forEach(alternative -> {
+                alternative.getParagraphs().getParagraphs().forEach(paragraph -> {
+                    var speaker = paragraph.getSpeaker().toString();
+                    var text = paragraph.getSentences().stream().map(sentence -> sentence.getText())
+                            .collect(Collectors.joining(" "));
+                    var transcriptionCreated = Transcription.builder()
+                            .speaker(speaker)
+                            .text(text)
+                            .type(TranscriptionType.FULL)
+                            .audioUrl(transcription.getAudioUrl())
+                            .session(transcription.getSession())
+                            .build();
+                    transcriptions.add(transcriptionCreated);
+                });
+            });
+        });
+        return transcriptions;
     }
 
     private DeepgramResponse requestDeepgram(String audioUrl) {

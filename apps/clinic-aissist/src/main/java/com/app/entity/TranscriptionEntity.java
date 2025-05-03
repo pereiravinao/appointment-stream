@@ -20,14 +20,12 @@ import lombok.Setter;
 public class TranscriptionEntity extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "audio_session_id")
-    private AudioSessionEntity audioSession;
+    @JoinColumn(name = "session_id")
+    private RecordingSessionEntity session;
 
     private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "speaker_id")
-    private SpeakerEntity speaker;
+    private String speaker;
 
     private LocalDateTime transcribedAt;
 
@@ -38,9 +36,7 @@ public class TranscriptionEntity extends BaseEntity {
         transcription.setUpdatedAt(super.getUpdatedAt());
         transcription.setVersion(super.getVersion());
         transcription.setText(this.text);
-        if (this.speaker != null) {
-            transcription.setSpeaker(this.speaker.toModel());
-        }
+        transcription.setSpeaker(this.speaker);
         transcription.setTranscribedAt(this.transcribedAt);
         return transcription;
     }
@@ -51,12 +47,10 @@ public class TranscriptionEntity extends BaseEntity {
         super.setUpdatedAt(transcription.getUpdatedAt());
         super.setVersion(transcription.getVersion());
         this.text = transcription.getText();
-        if (transcription.getSpeaker() != null) {
-            this.speaker = new SpeakerEntity(transcription.getSpeaker());
-        }
+        this.speaker = transcription.getSpeaker();
         this.transcribedAt = transcription.getTranscribedAt();
-        if (transcription.getAudioSession() != null) {
-            this.audioSession = new AudioSessionEntity(transcription.getAudioSession());
+        if (transcription.getSession() != null) {
+            this.session = new RecordingSessionEntity(transcription.getSession());
         }
     }
 }
