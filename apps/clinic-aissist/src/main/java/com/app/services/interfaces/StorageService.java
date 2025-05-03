@@ -1,7 +1,9 @@
 package com.app.services.interfaces;
 
 public interface StorageService {
-    String uploadAudio(byte[] file, String fileName);
+    String generatePresignedUploadUrl(String filename);
+
+    String getPublicUrl(String filename);
 
     void delete(String fileName);
 }

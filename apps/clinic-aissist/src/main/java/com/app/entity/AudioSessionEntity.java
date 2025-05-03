@@ -21,7 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AudioSessionEntity extends BaseEntity {
 
-    private String sessionId;
+    private String requestId;
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
     private AudioSessionStatus status;
@@ -39,7 +39,7 @@ public class AudioSessionEntity extends BaseEntity {
         audioSession.setCreatedAt(super.getCreatedAt());
         audioSession.setUpdatedAt(super.getUpdatedAt());
         audioSession.setVersion(super.getVersion());
-        audioSession.setSessionId(this.sessionId);
+        audioSession.setRequestId(this.requestId);
         audioSession.setStartedAt(this.startedAt);
         audioSession.setEndedAt(this.endedAt);
         audioSession.setStatus(this.status);
@@ -58,7 +58,7 @@ public class AudioSessionEntity extends BaseEntity {
         super.setCreatedAt(audioSession.getCreatedAt());
         super.setUpdatedAt(audioSession.getUpdatedAt());
         super.setVersion(audioSession.getVersion());
-        this.sessionId = audioSession.getSessionId();
+        this.requestId = audioSession.getRequestId();
         this.startedAt = audioSession.getStartedAt();
         this.endedAt = audioSession.getEndedAt();
         this.status = audioSession.getStatus();

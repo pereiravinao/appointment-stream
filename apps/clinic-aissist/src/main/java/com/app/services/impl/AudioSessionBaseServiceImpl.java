@@ -36,8 +36,7 @@ public class AudioSessionBaseServiceImpl implements AudioSessionService {
     @Transactional
     @Override
     public AudioSession startNewSession() {
-        AudioSession session = new AudioSession();
-        session.setCreatedAt(LocalDateTime.now());
+        AudioSession session = new AudioSession(null);
         return sessionRepository.save(new AudioSessionEntity(session)).toModel();
     }
 

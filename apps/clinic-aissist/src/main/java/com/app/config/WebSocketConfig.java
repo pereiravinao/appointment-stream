@@ -1,13 +1,11 @@
 package com.app.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
-import com.app.handler.AudioStreamWebSocketHandler;
+import com.app.handler.AudioWebSocketHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,12 +14,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private final AudioStreamWebSocketHandler audioStreamWebSocketHandler;
+    private final AudioWebSocketHandler audioWebSocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(audioStreamWebSocketHandler, "/audio-stream")
+        registry.addHandler(audioWebSocketHandler, "/audio-stream")
                 .setAllowedOrigins("*");
     }
-
 }

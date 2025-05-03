@@ -2,11 +2,13 @@ package com.app.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.handler.AudioStreamWebSocketHandler;
+import com.app.enums.WebSocketMessageType;
 import com.app.response.AudioStreamSessionStatusResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -16,10 +18,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AudioStreamAdminController {
 
-    private final AudioStreamWebSocketHandler audioStreamWebSocketHandler;
-
     @GetMapping("/sessions")
-    public List<AudioStreamSessionStatusResponse> listActiveSessions() {
-        return audioStreamWebSocketHandler.listSessions();
+    public ResponseEntity<List<AudioStreamSessionStatusResponse>> listActiveSessions(
+            @RequestParam WebSocketMessageType type) {
+        return ResponseEntity.noContent().build();
     }
 }

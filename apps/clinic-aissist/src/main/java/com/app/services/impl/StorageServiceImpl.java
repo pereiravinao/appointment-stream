@@ -12,10 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
-import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -28,32 +26,8 @@ public class StorageServiceImpl implements StorageService {
     @Value("${minio.storage.bucket}")
     private String bucketName;
 
-    @Override
-    public String uploadAudio(byte[] audioData, String filename) {
-        try {
-            PutObjectRequest objectRequest = PutObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(filename)
-                    .contentType("audio/wav")
-                    .build();
-
-            s3Client.putObject(objectRequest, software.amazon.awssdk.core.sync.RequestBody.fromBytes(audioData));
-
-            // Gera a URL pública assinada (expira em 7 dias, ajuste se quiser)
-            GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
-                    .signatureDuration(Duration.ofDays(7))
-                    .getObjectRequest(r -> r.bucket(bucketName).key(filename))
-                    .build();
-
-            URL url = s3Presigner.presignGetObject(presignRequest).url();
-            log.info("URL do arquivo salvo: {}", url.toString());
-            return url.toString();
-
-        } catch (S3Exception e) {
-            log.error("Erro ao fazer upload no storage: {}", e.awsErrorDetails().errorMessage());
-            throw new RuntimeException("Erro ao fazer upload no storage: " + e.awsErrorDetails().errorMessage());
-        }
-    }
+    @Value("${minio.storage.endpoint}")
+    private String endpoint;
 
     @Override
     public void delete(String fileName) {
@@ -61,4 +35,28 @@ public class StorageServiceImpl implements StorageService {
         log.info("Arquivo deletado com sucesso: {}", fileName);
     }
 
+    @Override
+    public String generatePresignedUploadUrl(String objectName) {
+        try {
+            PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
+                    .signatureDuration(Duration.ofMinutes(60)) // 6 minutos
+                    .putObjectRequest(req -> req
+                            .bucket(bucketName)
+                            .key(objectName)
+                            .build())
+                    .build();
+
+            URL url = s3Presigner.presignPutObject(presignRequest).url();
+            log.info("URL de upload pré-assinada gerada: {}", url);
+            return url.toString();
+        } catch (Exception e) {
+            log.error("Erro ao gerar presigned URL para upload", e);
+            throw new RuntimeException("Erro ao gerar presigned URL", e);
+        }
+    }
+
+    @Override
+    public String getPublicUrl(String objectName) {
+        return endpoint + "/" + bucketName + "/" + objectName;
+    }
 }

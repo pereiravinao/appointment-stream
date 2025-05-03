@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.app.model.AudioChunk;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -26,6 +27,8 @@ public class AudioChunkEntity extends BaseEntity {
     private int sequenceNumber;
     private String audioUrl;
     private String speakerLabel;
+
+    @Column(columnDefinition = "TEXT")
     private String text;
     private Float startTime;
     private Float endTime;
