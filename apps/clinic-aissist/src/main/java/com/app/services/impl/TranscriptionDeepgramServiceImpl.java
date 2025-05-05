@@ -12,13 +12,13 @@ import com.app.enums.TranscriptionType;
 import com.app.model.Transcription;
 import com.app.properties.DeepgramProperties;
 import com.app.response.DeepgramResponse;
-import com.app.strategy.TranscriptionTypeStrategy;
+import com.app.strategy.TranscriptionStrategy;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TranscriptionDeepgramServiceImpl implements TranscriptionTypeStrategy {
+public class TranscriptionDeepgramServiceImpl implements TranscriptionStrategy {
 
     private final DeepgramProperties deepgramProperties;
     private final WebClient.Builder webClientBuilder;
@@ -43,7 +43,7 @@ public class TranscriptionDeepgramServiceImpl implements TranscriptionTypeStrate
                             .text(text)
                             .type(TranscriptionType.FULL)
                             .audioUrl(transcription.getAudioUrl())
-                            .session(transcription.getSession())
+                            .recordingSession(transcription.getRecordingSession())
                             .build();
                     transcriptions.add(transcriptionCreated);
                 });

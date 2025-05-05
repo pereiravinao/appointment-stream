@@ -6,17 +6,17 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.app.enums.TranscriptionType;
-import com.app.strategy.TranscriptionTypeStrategy;
+import com.app.strategy.TranscriptionStrategy;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class TranscriptionTypeFactory {
+public class TranscriptionFactory {
 
-    private final List<TranscriptionTypeStrategy> strategies;
+    private final List<TranscriptionStrategy> strategies;
 
-    public Optional<TranscriptionTypeStrategy> getStrategyFor(TranscriptionType type) {
+    public Optional<TranscriptionStrategy> getStrategyFor(TranscriptionType type) {
         return strategies.stream().filter(s -> s.supports(type)).findFirst();
     }
 

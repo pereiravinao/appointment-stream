@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum WebSocketMessageType {
     GET_UPLOAD_URL("getUploadUrl"),
     UPLOAD_URL_RESPONSE("uploadUrlResponse"),
+    END_SESSION("endSession"),
     ERROR("error");
 
     private final String value;

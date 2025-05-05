@@ -8,4 +8,6 @@ public interface RecordingSessionService {
 
     RecordingSession startNewSession();
 
+    RecordingSession findBySessionId(String sessionId);
+
 }

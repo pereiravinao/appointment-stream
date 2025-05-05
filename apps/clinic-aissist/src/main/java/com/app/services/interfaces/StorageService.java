@@ -5,5 +5,9 @@ public interface StorageService {
 
     String getPublicUrl(String filename);
 
+    String getSignedUrl(String key);
+
     void delete(String fileName);
+    
+    String concatAudioChunks(String sessionId);
 }

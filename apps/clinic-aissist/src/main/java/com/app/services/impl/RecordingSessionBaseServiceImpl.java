@@ -27,4 +27,10 @@ public class RecordingSessionBaseServiceImpl implements RecordingSessionService 
     public void closeSession(String sessionId) {
         return;
     }
+
+    @Override
+    public RecordingSession findBySessionId(String sessionId) {
+        return recordingSessionRepository.findBySessionId(sessionId).map(RecordingSessionEntity::toModel)
+                .orElseThrow(() -> new RuntimeException("Session not found"));
+    }
 }

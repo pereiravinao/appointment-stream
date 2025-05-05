@@ -1,10 +1,12 @@
 package com.app.entity;
 
-import java.time.LocalDateTime;
-
+import com.app.enums.TranscriptionType;
 import com.app.model.Transcription;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -20,14 +22,17 @@ import lombok.Setter;
 public class TranscriptionEntity extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "session_id")
-    private RecordingSessionEntity session;
+    @JoinColumn(name = "recording_session_id")
+    private RecordingSessionEntity recordingSession;
 
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
-
     private String speaker;
 
-    private LocalDateTime transcribedAt;
+    @Enumerated(EnumType.STRING)
+    private TranscriptionType type;
+
+    private String audioUrl;
 
     public Transcription toModel() {
         var transcription = new Transcription();
@@ -37,7 +42,8 @@ public class TranscriptionEntity extends BaseEntity {
         transcription.setVersion(super.getVersion());
         transcription.setText(this.text);
         transcription.setSpeaker(this.speaker);
-        transcription.setTranscribedAt(this.transcribedAt);
+        transcription.setType(this.type);
+        transcription.setAudioUrl(this.audioUrl);
         return transcription;
     }
 
@@ -48,9 +54,10 @@ public class TranscriptionEntity extends BaseEntity {
         super.setVersion(transcription.getVersion());
         this.text = transcription.getText();
         this.speaker = transcription.getSpeaker();
-        this.transcribedAt = transcription.getTranscribedAt();
-        if (transcription.getSession() != null) {
-            this.session = new RecordingSessionEntity(transcription.getSession());
+        if (transcription.getRecordingSession() != null) {
+            this.recordingSession = new RecordingSessionEntity(transcription.getRecordingSession());
         }
+        this.type = transcription.getType();
+        this.audioUrl = transcription.getAudioUrl();
     }
 }

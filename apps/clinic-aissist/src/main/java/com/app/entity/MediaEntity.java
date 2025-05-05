@@ -3,6 +3,8 @@ package com.app.entity;
 import com.app.model.Media;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,10 @@ public class MediaEntity extends BaseEntity {
     private String hash;
     private String extension;
     private String mimeType;
+
+    @ManyToOne
+    @JoinColumn(name = "recording_session_id")
+    private RecordingSessionEntity recordingSession;
 
     public Media toModel() {
         var media = new Media();
