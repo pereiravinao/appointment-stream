@@ -32,7 +32,7 @@ public class GetUploadUrlHandler implements MessageHandlerStrategy {
         String requestId = buildRequestId(message);
         String chunkNumber = buildChunkNumber(message);
 
-        String filename = "session/" + requestId + "/chunk/" + chunkNumber + ".webm";
+        String filename = "session/" + requestId + "/chunk/" + chunkNumber + ".wav";
         String uploadUrl = storageService.generatePresignedUploadUrl(filename);
         String objectUrl = storageService.getPublicUrl(filename);
 

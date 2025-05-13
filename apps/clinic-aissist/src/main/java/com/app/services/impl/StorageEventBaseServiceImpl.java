@@ -47,7 +47,7 @@ public class StorageEventBaseServiceImpl implements StorageEventService {
         transcriptionFactory.getStrategyFor(transcription.getType())
                 .ifPresent(strategy -> {
                     var transcripts = strategy.transcribe(transcription);
-                    saveTranscriptions(transcripts);
+                        saveTranscriptions(transcripts);
                 });
     }
 

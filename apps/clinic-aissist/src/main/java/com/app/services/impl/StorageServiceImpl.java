@@ -134,12 +134,12 @@ public class StorageServiceImpl implements StorageService {
             }
             
             // 6. Concatenar os arquivos usando FFmpeg
-            String outputFilePath = tempDir.resolve("output.webm").toString();
+            String outputFilePath = tempDir.resolve("output.wav").toString();
             concatenateWithFFmpeg(chunkFiles, outputFilePath);
             
             // 7. Fazer upload do arquivo concatenado
             File outputFile = new File(outputFilePath);
-            String targetKey = "session/" + sessionId + "/full-audio.webm";
+            String targetKey = "session/" + sessionId + "/full-audio.wav";
             uploadFile(outputFile, targetKey);
             
             // 8. Limpar arquivos temporários
