@@ -79,8 +79,9 @@ public class TranscriptionDeepgramServiceImpl implements TranscriptionStrategy {
                 "diarize", true,
                 "dictation", true,
                 "paragraphs", true,
-                "language", "pt-BR");
-
+                "language", "pt-BR",
+                "model", "whisper");
+                
         return params.entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + entry.getValue())
                 .collect(Collectors.joining("&"));
