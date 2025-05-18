@@ -58,21 +58,12 @@ O sistema utiliza o modelo de troca de tópicos (Topic Exchange) do RabbitMQ par
 
 - **Exchanges**:
   - `appointment-exchange`: Usado para eventos relacionados a agendamentos
-  - `user-exchange`: Usado para eventos relacionados a usuários
-  - `notification-exchange`: Usado para eventos de notificação
 
 - **Filas**:
-  - `appointment.notification.queue`: Consome eventos de agendamento para gerar notificações
-  - `appointment.history.queue`: Consome eventos de agendamento para registro histórico
-  - `user.notification.queue`: Consome eventos de usuário para notificações
-  - `user.history.queue`: Consome eventos de usuário para registro histórico
+  - `appointment-queue`: Fila principal que consome eventos de agendamento para notificações e histórico
 
-- **Padrões de Routing Keys**:
-  - `appointment.created`: Evento de criação de agendamento
-  - `appointment.updated`: Evento de atualização de agendamento
-  - `appointment.deleted`: Evento de exclusão de agendamento
-  - `user.registered`: Evento de registro de usuário
-  - `user.updated`: Evento de atualização de usuário
+- **Routing Keys**:
+  - `appointment-routing-key`: Chave de roteamento padrão para eventos de agendamento
 
 ## Tecnologias Utilizadas
 
@@ -141,6 +132,30 @@ O sistema utiliza o modelo de troca de tópicos (Topic Exchange) do RabbitMQ par
   - Limpa cookies de autenticação
 
 ### User Service (REST API)
+
+- **POST /api/v1/users/register**
+  - Registro de novos usuários (uso interno)
+  - Entrada:
+    ```json
+    {
+      "authId": "auth123",
+      "name": "Nome do Usuário",
+      "email": "usuario@exemplo.com",
+      "roles": ["USER"],
+      "ownerId": 1
+    }
+    ```
+  - Saída:
+    ```json
+    {
+      "id": 1,
+      "authId": "auth123",
+      "name": "Nome do Usuário",
+      "email": "usuario@exemplo.com",
+      "roles": ["USER"],
+      "ownerId": 1
+    }
+    ```
 
 - **GET /api/v1/users/{authId}**
   - Obter usuário pelo ID de autenticação (uso interno)
@@ -398,6 +413,9 @@ Repita o processo para os demais serviços, substituindo `appointment-service` p
 - Nível de log para Spring Security: DEBUG
 - Registros de ações são mantidos no History Service
 
+## Repositório GutHub
+[Repositório Github](https://github.com/pereiravinao/appointment-stream)
+
 
 ## Postman Collection
-
+[Postman Collection](https://documenter.getpostman.com/view/38403096/2sB2qXji4J#082ffa3c-b0e0-4944-8b7f-7ff4c815d91f)
