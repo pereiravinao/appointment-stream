@@ -65,8 +65,10 @@ public class AuthBaseServiceImpl implements AuthService {
                 .roles(Set.of(UserRole.USER))
                 .build();
 
+        userAuth = this.authUserRepository.save(new UserAuthEntity(userAuth)).toModel();
         var userId = this.registerUserBase(userAuth);
         userAuth.setId(userId);
+
         userAuth = this.authUserRepository.save(new UserAuthEntity(userAuth)).toModel();
 
         var token = this.jwtTokenService.generateToken(userAuth);

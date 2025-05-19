@@ -6,11 +6,15 @@ import java.util.Set;
 import com.app.enums.UserRole;
 import com.app.model.User;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRegisterInternalResponse implements Serializable {
 
     private Long id;

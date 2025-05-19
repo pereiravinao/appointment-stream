@@ -52,11 +52,20 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String getToken(HttpServletRequest request) {
-        var token = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
+            return token.substring(7);
         }
-        return token;
+    
+        if (request.getCookies() != null) {
+            for (var cookie : request.getCookies()) {
+                if (cookie.getName().equals("tkn")) {
+                    return cookie.getValue();
+                }
+            }
+        }
+    
+        return null;
     }
 
     private UserAuth extractUser(String token) {
