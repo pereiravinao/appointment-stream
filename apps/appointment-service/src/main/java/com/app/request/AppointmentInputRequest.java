@@ -16,6 +16,7 @@ public class AppointmentInputRequest {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
+    private Long id;
     private String name;
     private String description;
     private String status;
@@ -37,8 +38,13 @@ public class AppointmentInputRequest {
         this.consumerId = Long.parseLong(consumerId);
     }
 
+    public void setId(String id) {
+        this.id = Long.parseLong(id);
+    }
+
     public Appointment toModel() {
         var appointment = Appointment.builder()
+                .id(this.id)
                 .name(this.name)
                 .description(this.description)
                 .status(this.status)
