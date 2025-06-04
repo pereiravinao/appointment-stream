@@ -42,6 +42,7 @@ input AppointmentInput {
 }
 
 input AppointmentUpdate {
+    id: ID!
     description: String
     status: String
     starTime: String
